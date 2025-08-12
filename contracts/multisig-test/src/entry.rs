@@ -1,8 +1,6 @@
-use alloc::{vec, vec::Vec};
 use ckb_std::{
-    ckb_types::{bytes::Bytes, prelude::*},
-    debug,
-    high_level::{load_cell_capacity, load_script, load_tx_hash},
+    ckb_constants::Source,
+    high_level::load_cell_capacity,
 };
 use core::result::Result;
 

@@ -11,7 +11,7 @@ use ckb_testtool::ckb_error::Error;
 const MAX_CYCLES: u64 = 10_000_000;
 
 // error numbers
-const ERROR_EMPTY_ARGS: i8 = 5;
+const ERROR_CAPACITY_NOT_ENOUGH: i8 = 5;
 
 fn assert_script_error(err: Error, err_code: i8) {
     let error_string = err.to_string();
@@ -38,7 +38,7 @@ fn test_success() {
     // prepare cells
     let input_out_point = context.create_cell(
         CellOutput::new_builder()
-            .capacity(1000u64.pack())
+            .capacity(1000_0000_0000u64.pack())
             .lock(lock_script.clone())
             .build(),
         Bytes::new(),
@@ -48,11 +48,11 @@ fn test_success() {
         .build();
     let outputs = vec![
         CellOutput::new_builder()
-            .capacity(500u64.pack())
+            .capacity(500_0000_0000u64.pack())
             .lock(lock_script.clone())
             .build(),
         CellOutput::new_builder()
-            .capacity(500u64.pack())
+            .capacity(500_0000_0000u64.pack())
             .lock(lock_script)
             .build(),
     ];
@@ -75,7 +75,7 @@ fn test_success() {
 }
 
 #[test]
-fn test_empty_args() {
+fn test_capacity_not_enough() {
     // deploy contract
     let mut context = Context::default();
     let contract_bin: Bytes = Loader::default().load_binary("multisig-test");
@@ -89,7 +89,7 @@ fn test_empty_args() {
     // prepare cells
     let input_out_point = context.create_cell(
         CellOutput::new_builder()
-            .capacity(1000u64.pack())
+            .capacity(500_0000_0000u64.pack())
             .lock(lock_script.clone())
             .build(),
         Bytes::new(),
@@ -99,11 +99,11 @@ fn test_empty_args() {
         .build();
     let outputs = vec![
         CellOutput::new_builder()
-            .capacity(500u64.pack())
+            .capacity(120_0000_0000u64.pack())
             .lock(lock_script.clone())
             .build(),
         CellOutput::new_builder()
-            .capacity(500u64.pack())
+            .capacity(380_0000_0000u64.pack())
             .lock(lock_script)
             .build(),
     ];
@@ -120,5 +120,5 @@ fn test_empty_args() {
 
     // run
     let err = context.verify_tx(&tx, MAX_CYCLES).unwrap_err();
-    assert_script_error(err, ERROR_EMPTY_ARGS);
+    assert_script_error(err, ERROR_CAPACITY_NOT_ENOUGH);
 }
