@@ -1,0 +1,20 @@
+ [[cells]]
+ name = "multisig"
+ enable_type_id = true
+ location = { file = "/home/dylan/ckb/contracts/multisig-test/build/release/multisig-test" }
+
+ [lock]
+ code_hash = "0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8"
+ args = "0x2dd7c0ce5590331b6cfbbcbc21a6965d6e4d2fab"
+ hash_type = "type"
+ 
+
+# For unlocking inputs with multisig lock script
+[multisig_config]
+sighash_addresses = [
+  "ckt1qyqv4adup7fy9a7k4na343s5xg9het67zgtssh5nuk",
+  "ckt1qyq8frfrlctj6gkwge9h0yd2shek98dcux7qf8a5pu",
+]
+require_first_n = 0
+threshold = 2
+
